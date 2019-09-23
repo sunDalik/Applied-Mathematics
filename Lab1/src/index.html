@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab1</title>
+</head>
+<style>
+    body {
+        font-family: "Calibri Light", sans-serif;
+        text-align: center;
+        margin-top: 60px;
+        margin-bottom: 50px;
+    }
+
+    #result {
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: collapse;
+        border: 2px solid black;
+    }
+
+    #result td {
+        padding: 0 25px;
+        border-right: 2px solid black;
+    }
+
+    #result tr:first-child td {
+        padding: 5px 25px;
+        border-bottom: 2px solid black;
+    }
+
+    .item_small {
+        margin-top: 10px;
+    }
+</style>
+<body>
+<h2>Upload text file to calculate entropy</h2>
+<input type="file" id="file-input">
+<div class="item_small" id="entropy-H"></div>
+<div class="item_small" id="entropy-H-star"></div>
+<table class="item_small" id="result">
+    <tr>
+        <td>Symbol</td>
+        <td>Probability P(x<sub>i</sub>), bit</td>
+        <td>Entropy H(x<sub>i</sub>), bit</td>
+    </tr>
+</table>
+<script src="script.js"></script>
+</body>
+</html>
