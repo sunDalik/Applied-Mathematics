@@ -3,7 +3,7 @@ document.getElementById('file-input').oninput = function () {
     if (file != null) { // don't do anything if no file has been chosen
         document.getElementById("result").innerHTML = "<tr>\n" +
             "        <td>Symbol</td>\n" +
-            "        <td>Probability P(x<sub>i</sub>), bit</td>\n" +
+            "        <td>Probability P(x<sub>i</sub>)</td>\n" +
             "        <td>Entropy H(x<sub>i</sub>), bit</td>\n" +
             "    </tr>";
         document.getElementById("entropy-H").innerText = "";

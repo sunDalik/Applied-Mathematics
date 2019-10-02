@@ -81,7 +81,7 @@ document.getElementById('file-input').oninput = function () {
     if (file != null) { // don't do anything if no file has been chosen
         document.getElementById("result").innerHTML = `<tr>
             <td>Symbol</td>
-            <td>Probability P(x<sub>i</sub>), bit</td>
+            <td>Probability P(x<sub>i</sub>)</td>
             <td>Shannon-Fano code</td>
             <td>Huffman code</td>
             </tr>`;
