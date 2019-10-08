@@ -1,3 +1,7 @@
+# NEVERMIND THIS SCRIPT
+# IT WAS WRITTEN WHEN I THOUGHT JAVASCRIPT DOESN'T WORK
+# BUT JS IS FINE
+
 class Segment:
     # left and right borders of interval
     left = 0.0
