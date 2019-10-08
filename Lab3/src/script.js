@@ -8,6 +8,7 @@ class CharNode {
 
 class Segment {
     constructor(left = 0.0, right = 0.0, char = "") {
+        // left and right borders of a segment
         this.left = left;
         this.right = right;
         this.char = char;
@@ -15,11 +16,12 @@ class Segment {
 }
 
 function arithmeticEncode(letters, nodeList, textToCode) {
-    let border = 0.0;
     let segments = [];
     for (const letter of letters) {
         segments.push(new Segment(0.0, 0.0, letter));
     }
+    // define borders for each segment
+    let border = 0.0;
     for (let i = 0; i < segments.length; ++i) {
         segments[i].left = border;
         segments[i].right = border + nodeList[i].probability;
@@ -27,11 +29,15 @@ function arithmeticEncode(letters, nodeList, textToCode) {
     }
     let left = 0.0;
     let right = 1.0;
+    // encoding each letter in the text
     for (let i = 0; i < textToCode.length; ++i) {
         for (const segment of segments) {
             if (segment.char === textToCode[i]) {
-                left = left + (right - left) * segment.left;
-                right = left + (right - left) * segment.right;
+                // l1 = l0 + r0 * Q0; h1 = l0 + r0 * Q1
+                const newLeft = left + (right - left) * segment.left;
+                const newRight = left + (right - left) * segment.right;
+                left = newLeft;
+                right = newRight;
                 break;
             }
         }
@@ -51,22 +57,23 @@ function arithmeticDecoding(letters, nodeList, encodedText, originalText) {
         segments[i].char = letters[i];
         border = segments[i].right;
     }
-    let decode = "";
+    let decodedText = "";
     for (let i = 0; i < originalText.length; ++i) {
         for (let j = 0; j < letters.length; ++j) {
             if (segments[j].left <= encodedText && encodedText < segments[j].right) {
-                decode += segments[j].char;
+                decodedText += segments[j].char;
                 encodedText = (encodedText - segments[j].left) / (segments[j].right - segments[j].left);
                 break;
             }
         }
     }
-    return decode
+    return decodedText
 }
 
 document.getElementById('file-input').oninput = function () {
     const file = document.getElementById('file-input').files[0];
     if (file != null) { // don't do anything if no file has been chosen
+        document.getElementById("result").innerText = ""; // clear results
         const fileReader = new FileReader();
         fileReader.onload = function (e) {
             const text = e.target.result.toLowerCase();
