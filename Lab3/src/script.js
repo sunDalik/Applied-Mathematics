@@ -45,7 +45,7 @@ function arithmeticDecoding(letters, nodeList, encodedText, originalText) {
     for (let i = 0; i < letters.length; ++i) {
         segments.push(new Segment());
     }
-    for (let i = 0; i < letters.length; ++i) {
+    for (let i = 0; i < segments.length; ++i) {
         segments[i].left = border;
         segments[i].right = border + nodeList[i].probability;
         segments[i].char = letters[i];
