@@ -7,9 +7,10 @@ class CharNode {
 }
 
 class Segment {
-    constructor(left = 0.0, right = 0.0) {
+    constructor(left = 0.0, right = 0.0, char = "") {
         this.left = left;
         this.right = right;
+        this.char = char;
     }
 }
 
@@ -17,48 +18,44 @@ function arithmeticEncode(letters, nodeList, textToCode) {
     let border = 0.0;
     let segments = [];
     for (const letter of letters) {
-        segments[letter] = new Segment();
+        segments.push(new Segment(0.0, 0.0, letter));
     }
-    for (let i = 0; i < letters.length; ++i) {
-        const letter = letters[i];
-        segments[letter].left = border;
-        segments[letter].right = border + nodeList[i].probability;
-        border = segments[letter].right;
+    for (let i = 0; i < segments.length; ++i) {
+        segments[i].left = border;
+        segments[i].right = border + nodeList[i].probability;
+        border = segments[i].right;
     }
     let left = 0.0;
     let right = 1.0;
     for (let i = 0; i < textToCode.length; ++i) {
-        const symbol = textToCode[i];
-        left = left + (right - left) * segments[symbol].left;
-        right = left + (right - left) * segments[symbol].right;
+        for (const segment of segments) {
+            if (segment.char === textToCode[i]) {
+                left = left + (right - left) * segment.left;
+                right = left + (right - left) * segment.right;
+                break;
+            }
+        }
     }
-    return (left + right) / 2
-}
-
-class SegmentDecode extends Segment {
-    constructor(character) {
-        super();
-        this.character = null;
-    }
+    return left
 }
 
 function arithmeticDecoding(letters, nodeList, encodedText, originalText) {
     let border = 0.0;
     let segments = [];
     for (let i = 0; i < letters.length; ++i) {
-        segments.push(new SegmentDecode());
+        segments.push(new Segment());
     }
     for (let i = 0; i < letters.length; ++i) {
         segments[i].left = border;
         segments[i].right = border + nodeList[i].probability;
-        segments[i].character = letters[i];
+        segments[i].char = letters[i];
         border = segments[i].right;
     }
     let decode = "";
     for (let i = 0; i < originalText.length; ++i) {
         for (let j = 0; j < letters.length; ++j) {
             if (segments[j].left <= encodedText && encodedText < segments[j].right) {
-                decode += segments[j].character;
+                decode += segments[j].char;
                 encodedText = (encodedText - segments[j].left) / (segments[j].right - segments[j].left);
                 break;
             }
@@ -73,7 +70,7 @@ document.getElementById('file-input').oninput = function () {
         const fileReader = new FileReader();
         fileReader.onload = function (e) {
             const text = e.target.result;
-            const letterSet = new Set(text);
+            const letterSet = Array.from(new Set(text));
             const nodeList = [];
             for (const ch of text) {
                 const char = ch.toLowerCase();
