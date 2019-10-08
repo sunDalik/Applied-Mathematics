@@ -69,11 +69,11 @@ document.getElementById('file-input').oninput = function () {
     if (file != null) { // don't do anything if no file has been chosen
         const fileReader = new FileReader();
         fileReader.onload = function (e) {
-            const text = e.target.result;
+            const text = e.target.result.toLowerCase();
             const letterSet = Array.from(new Set(text));
             const nodeList = [];
             for (const ch of text) {
-                const char = ch.toLowerCase();
+                const char = ch;
                 let nodeI = undefined;
                 for (let i = 0; i < nodeList.length; ++i) {
                     if (nodeList[i].char === char) {
@@ -94,7 +94,7 @@ document.getElementById('file-input').oninput = function () {
             const decodedText = arithmeticDecoding(letterSet, nodeList, encodedText, text);
             document.getElementById('result').innerText += `Arithmetically encoded text: ${encodedText}\n`;
             document.getElementById('result').innerText += `Decoded text: ${decodedText}\n`;
-            document.getElementById('result').innerText += `Compression ratio: ${encodedText.length / decodedText.length * 100} %`;
+            document.getElementById('result').innerText += `Compression ratio: ${encodedText.toString().length / decodedText.length * 100} %`;
         };
         fileReader.readAsText(file);
     }
