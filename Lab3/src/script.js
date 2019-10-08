@@ -99,6 +99,7 @@ document.getElementById('file-input').oninput = function () {
             }
             const encodedText = arithmeticEncode(letterSet, nodeList, text);
             const decodedText = arithmeticDecoding(letterSet, nodeList, encodedText, text);
+            document.getElementById('result').innerText += `Original text: ${text}\n`;
             document.getElementById('result').innerText += `Arithmetically encoded text: ${encodedText}\n`;
             document.getElementById('result').innerText += `Decoded text: ${decodedText}\n`;
             document.getElementById('result').innerText += `Compression ratio: ${encodedText.toString().length / decodedText.length * 100} %`;
